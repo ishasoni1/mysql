@@ -1,0 +1,208 @@
+use myntra;
+ select * from products;
+ 
+ -- Showing the Data
+select * from products;
+select brand_name from products;
+
+
+-- showing specific columns
+select brand_name from products;
+select brand_name, rating, rating_count from products;
+
+-- showing specific column in specific order
+select rating, brand_name, rating_count from products;
+
+-- create new column with mathemtical functions | Making Discounted Amount
+select product_name, brand_name,marked_price, discounted_price, 
+	marked_price - discounted_price as 'discount_amount' from products;
+
+select product_name, brand_name,marked_price, discounted_price, 
+		marked_price - discounted_price as 'discount_amount',
+		ROUND(((marked_price - discounted_price)/marked_price)*100) as 'discount_perc'
+from products;
+
+-- create new column with mathemtical functions | Making Rating Count * Rating
+select product_name, brand_name, rating_count, rating, rating_count * rating as 'rating_filter' from products; 
+
+-- create new column with mathemtical functions | Making Discount Percentage
+select product_name, brand_name,marked_price, discounted_price, ROUND(((marked_price - discounted_price)/marked_price)*100) as 'discount_perc' from products;
+
+-- Finding UNIQUE values
+select count(brand_name) from products;
+
+select count(distinct(brand_name)) from products;
+
+select count(distinct(brand_name)) from products  where brand_name='nike';
+    
+
+-- Adding Where Clause
+select * from products where True;
+
+-- Adding Distinct with Where | Unique Products served by Adidas
+select * from products  where brand_tag = 'adidas';
+
+-- Adding Distinct with Where | Unique Products served by Adidas
+select distinct * from products  where brand_tag = 'adidas';
+
+-- Products with Multiple Where Clause with AND
+select count(distinct(brand_tag)) from products  
+	where  discounted_price < 1050;
+
+
+--  name of the brands selling shirts with price more than 5000
+select distinct(brand_name) from products  
+	where product_tag = 'shirts' and discounted_price > 5000;
+
+
+--  different categories "Blackberrys" serves in under 5000rs
+
+select * from products;
+
+select distinct(product_name) from products  
+	where brand_name = 'nike' and discounted_price < 5000;
+
+--  nike tshirts between 2000-3000
+
+Select * from products where brand_name='NIKE' AND product_name='tshirts' AND 
+discounted_price BETWEEN 2000 AND 3000;
+
+--  tshirts between 2000-3000 from either nike or adidas
+Select * from products where brand_name='NIKE' or brand_name='ADIDAS' AND product_name='tshirts' AND 
+discounted_price BETWEEN 2000 AND 3000;
+
+
+select distinct * from products  
+where brand_tag = 'adidas' and discounted_price > 3000 and discounted_price < 5000;
+
+-- Products with BETWEEN
+select distinct * from products  where brand_name = 'adidas' and discounted_price between 3000 and  5000;
+
+-- Adding more filters
+select distinct * from products  
+where brand_tag = 'adidas' and (discounted_price between 3000 and  8000) and rating > 4;
+
+-- Lets go one steps ahead
+select distinct * from products 
+where brand_name= 'adidas' and (discounted_price between 3000 and  8000) 
+				and rating > 4 and rating_count > 10;
+
+
+-- Using OR
+select distinct * from products  
+where (brand_name = 'adidas' or brand_name = 'puma') and 
+			(discounted_price between 5000 and  8000) ;
+
+-- Using NOT
+select distinct * from products  
+where not (brand_name = 'adidas') and (discounted_price between 5000 and  8000) ;
+
+-- Using IN
+select distinct * from products  
+where brand_name in ('adidas','puma') and (discounted_price between 5000 and  8000) ;
+
+-- Using NOT IN
+select distinct * from products  
+where brand_name not in ('adidas','puma') and (discounted_price between 5000 and  8000) ;
+
+# Finding the max value
+select min(discounted_price), avg(discounted_price), max(discounted_price) from products;
+select min(marked_price), avg(marked_price), max(marked_price) from products;
+
+
+select * from products where discounted_price = 45900;
+
+select max(marked_price) from products;
+select * from products where marked_price = 113999;
+
+-- find most,least expensive, average disocunted and marked price of adidas products
+
+select max(discounted_price), min(discounted_price), 
+		avg(discounted_price), avg(marked_price)
+        from products
+        where brand_name = 'Adidas';
+
+
+
+# Finding the min value
+select product_name, min(discounted_price) from products;
+
+
+# Finding the average value
+select avg(discounted_price) from products;
+
+# Finding the average value of brand puma
+select avg(discounted_price) from products where brand_name = 'puma';
+select min(discounted_price) from products where brand_name = 'puma';
+select max(discounted_price) from products where brand_name = 'puma';
+
+# Same command in one line
+select avg(discounted_price),
+		min(discounted_price),
+        max(discounted_price) from products 
+	where brand_name = 'puma';
+
+# Same command with alliace
+select avg(discounted_price) as 'avg',
+		min(discounted_price) as 'min',
+        max(discounted_price) as 'max' from products where brand_name = 'puma';
+
+
+# Creating new columns of total revenue genereated by each product
+select discounted_price, rating_count,  
+	discounted_price * rating_count as 'Revenue' from products;
+
+
+select sum(discounted_price * rating_count) as 'Revenue',
+		count(product_name as 'Products',
+        sum(discounted_price * rating_count)/count(product_name) as 'Revenue per Product'
+        from products;
+        
+select sum(discounted_price * rating_count) as 'Revenue',
+		count(product_name) as 'Products',
+        sum(discounted_price * rating_count)/count(product_name) as 'Revenue per Product'
+        from products where rating_count != 0;
+
+# Finding total revenue genereated by all product
+select discounted_price,rating_count, (discounted_price * rating_count) as 'Revenue' from products;
+
+select sum(discounted_price * rating_count) as 'Revenue' from products;
+select sum(rating_count) as 'Total Prodicts Sold' from products;
+
+# Finding total products
+select count(brand_tag) as 'Total Products' from products;
+select count(*) as 'Total Products' from products;
+
+
+-- Total Revenue Generate, Products Sold in tshirt
+select sum(discounted_price * rating_count) as 'Revenue',
+		sum(rating_count) as 'products sold' from products 
+		where product_name = 'tshirts';
+
+# Finding number of products in Nike
+
+select count(*) as 'Total Products' from products where brand_name = 'nike';
+select count(distinct product_link ) as 'Total Products' from products where brand_name = 'nike';
+
+# Finding the name of categories nike serves
+select distinct(product_name) as 'Total Products' from products where brand_name='nike';
+
+# Finding the number of categories nike serves
+select count(distinct(product_name)) as 'Total Products' from products where brand_name= 'nike';
+
+# Finding the number of brands serves on myntra
+select count(distinct(brand_name)) as 'Total Products' from products;
+-- practise 
+Select * from products;
+select count(*) from products;
+select count(brand_name) from products where brand_name='nike';
+select * from products where brand_name='nike' order by product_name;
+
+select brand_name,count(*) from products group by brand_name;
+select * from products;
+select product_catagory,count(*)as "products" from products group by product_catagory order by products
+desc limit 10;
+
+
+
+
