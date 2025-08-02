@@ -1,0 +1,225 @@
+use myntra;
+select * from productss;
+-- find the tshirts whose price is more than avg discount price
+select * from productss;
+select * from productss where marked_price>=1000;
+select brand_name from productss;
+select brand_name, rating, rating_count from productss;
+
+-- showing specific column in specific order
+select rating, brand_name, rating_count from productss;
+
+-- create new column with mathemtical functions | Making Discounted Amount
+select product_name, brand_name,marked_price, discounted_price, 
+	marked_price - discounted_price as 'discount_amount' from productss;
+
+select product_name, brand_name,marked_price, discounted_price, 
+		marked_price - discounted_price as 'discount_amount',
+		ROUND(((marked_price - discounted_price)/marked_price)*100) as 'discount_perc'
+from productss;
+
+-- create new column with mathemtical functions | Making Rating Count * Rating
+select product_name, brand_name, rating_count, rating, rating_count * rating as 'rating_filter' from productss; 
+
+-- create new column with mathemtical functions | Making Discount Percentage
+select product_name, brand_name,marked_price, discounted_price, ROUND(((marked_price - discounted_price)/marked_price)*100) as 'discount_perc' from productss;
+
+-- Finding UNIQUE values
+select count(brand_name) from productss;
+
+select count(distinct(brand_name)) from productss;
+
+select count(distinct(brand_name)) from productss  where brand_name='nike';
+    
+
+-- Adding Where Clause
+select * from products where True;
+
+-- Adding Distinct with Where | Unique Products served by Adidas
+select * from productss  where brand_tag = 'adidas';
+
+-- Adding Distinct with Where | Unique Products served by Adidas
+select distinct * from productss  where brand_tag = 'adidas';
+
+-- Products with Multiple Where Clause with AND
+select count(distinct(brand_tag)) from productss  
+	where  discounted_price < 1050;
+
+
+--  name of the brands selling shirts with price more than 5000
+select distinct(brand_name) from productss  
+	where product_tag = 'shirts' and discounted_price > 5000;
+
+
+--  different categories "Blackberrys" serves in under 5000rs
+
+select * from productss;
+
+select distinct(product_name) from productss  
+	where brand_name = 'nike' and discounted_price < 5000;
+
+--  nike tshirts between 2000-3000
+
+Select * from productss where brand_name='NIKE' AND product_name='tshirts' AND 
+discounted_price BETWEEN 2000 AND 3000;
+
+--  tshirts between 2000-3000 from either nike or adidas
+Select * from productss where brand_name='NIKE' or brand_name='ADIDAS' AND product_name='tshirts' AND 
+discounted_price BETWEEN 2000 AND 3000;
+
+
+select distinct * from productss  
+where brand_tag = 'adidas' and discounted_price > 3000 and discounted_price < 5000;
+
+-- Products with BETWEEN
+select distinct * from productss  where brand_name = 'adidas' and discounted_price between 3000 and  5000;
+
+-- Adding more filters
+select distinct * from productss 
+where brand_name = 'adidas' and (discounted_price between 3000 and  8000) and rating > 4;
+
+-- Lets go one steps ahead
+select distinct * from productss 
+where brand_name= 'adidas' and (discounted_price between 3000 and  8000) 
+				and rating > 4 and rating_count > 10;
+
+
+-- Using OR
+select distinct * from productss  
+where (brand_name = 'adidas' or brand_name = 'puma') and 
+			(discounted_price between 5000 and  8000) ;
+
+-- Using NOT
+select distinct * from productss  
+where not (brand_name = 'adidas') and (discounted_price between 5000 and  8000) ;
+
+-- Using IN
+select distinct * from productss  
+where brand_name in ('adidas','puma') and (discounted_price between 5000 and  8000) ;
+
+-- Using NOT IN
+select distinct * from productss  
+where brand_name not in ('adidas','puma') and (discounted_price between 5000 and  8000) ;
+
+# Finding the max value
+select min(discounted_price), avg(discounted_price), max(discounted_price) from productss;
+select min(marked_price), avg(marked_price), max(marked_price) from productss;
+
+
+select * from productss where  discounted_price = 45900;
+
+select max(marked_price) from productss;
+select * from productss where marked_price = 113999;
+
+-- find most,least expensive, average disocunted and marked price of adidas products
+
+select max(discounted_price), min(discounted_price), 
+		avg(discounted_price), avg(marked_price)
+        from productss
+        where brand_name = 'Adidas';
+
+
+
+# Finding the min value
+select product_name, min(discounted_price) from productss;
+
+
+# Finding the average value
+select avg(discounted_price) from productss;
+
+# Finding the average value of brand puma
+select avg(discounted_price) from productss where brand_name = 'puma';
+select min(discounted_price) from productss where brand_name = 'puma';
+select max(discounted_price) from productss where brand_name = 'puma';
+
+# Same command in one line
+select avg(discounted_price),
+		min(discounted_price),
+        max(discounted_price) from productsS 
+	where brand_name = 'puma';
+
+# Same command with alliace
+select avg(discounted_price) as 'avg',
+		min(discounted_price) as 'min',
+        max(discounted_price) as 'max' from productss where brand_name = 'puma';
+
+
+# Creating new columns of total revenue genereated by each product
+select discounted_price, rating_count,  
+	discounted_price * rating_count as 'Revenue' from productss;
+
+
+select sum(discounted_price * rating_count) as 'Revenue',
+		count(product_name as 'Products',
+        sum(discounted_price * rating_count)/count(product_name) as 'Revenue per Product'
+        from productss;
+        
+select sum(discounted_price * rating_count) as 'Revenue',
+		count(product_name) as 'Products',
+        sum(discounted_price * rating_count)/count(product_name) as 'Revenue per Product'
+        from productss rating_count != 0;
+
+# Finding total revenue genereated by all product
+select discounted_price,rating_count, (discounted_price * rating_count) as 'Revenue' from productss;
+
+select sum(discounted_price * rating_count) as 'Revenue' from productss;
+select sum(rating_count) as 'Total Prodicts Sold' from productss;
+
+# Finding total products
+select count(brand_tag) as 'Total Products' from productss;
+select count(*) as 'Total Products' from productss;
+
+
+-- Total Revenue Generate, Products Sold in tshirt
+select sum(discounted_price * rating_count) as 'Revenue',
+		sum(rating_count) as 'products sold' from productss 
+		where product_name = 'tshirts';
+
+# Finding number of products in Nike
+
+select count(*) as 'Total Products' from productss where brand_name = 'nike';
+select count(distinct product_link ) as 'Total Products' from productss where brand_name = 'nike';
+
+# Finding the name of categories nike serves
+select distinct(product_name) as 'Total Products' from productss where brand_name='nike';
+
+# Finding the number of categories nike serves
+select count(distinct(product_name)) as 'Total Products' from productss where brand_name= 'nike';
+
+# Finding the number of brands serves on myntra
+select count(distinct(brand_name)) as 'Total Products' from productss;
+Select * from productss;
+select count(*) from productss;
+select count(brand_name) from productss where brand_name='nike';
+select * from productss where brand_name='nike' order by product_name;
+
+select brand_name,count(*) from products group by brand_name;
+select * from productss;
+select product_catagory,count(*) as "products" from productss group by product_catagory
+ order by products
+desc limit 10;
+
+select * from productss;
+
+DROP DATABASE IF EXISTS gfg;
+CREATE DATABASE gfg;
+CREATE TABLE IF NOT EXISTS gfg.employees  (EmployeeID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), DepartmentID INT);
+CREATE TABLE IF NOT EXISTS gfg.department (DepartmentID INT PRIMARY KEY, DepartmentName VARCHAR(50));
+CREATE TABLE IF NOT EXISTS gfg.salaries   (EmployeeID INT PRIMARY KEY, Salary INT);
+
+
+INSERT INTO gfg.employees (EmployeeID, FirstName, LastName, DepartmentID) VALUES
+(1, 'Ashish', 'Jangra', 1), (2, 'Ankur', 'Gupta', 2), (3, 'Shivam', 'Kumar', 3), 
+(4, 'Sakshi', 'Awasthi', 4), (5, 'Avneet', 'Kaur', 5), (6, 'Sakshi','Singhal',1), 
+(7, 'Adarsh','Sharma',4), (8, 'Prakash','Sakari',6),(9,'Puneet','Kansal',7);
+
+INSERT INTO gfg.department (DepartmentID, DepartmentName) VALUES
+(1, 'Mentor'), (2, 'Designer'), (3, 'Editor'), (4, 'Onboarding'), (5, 'Project Manager'),(10, 'CEO');
+
+INSERT INTO gfg.salaries (EmployeeID, Salary) VALUES
+(1, 50000), (2, 54000), (3, 30000), (4, 60000), (5, 58000),(6,60000),(7,56000);
+
+
+SELECT * FROM gfg.employees;
+SELECT * FROM gfg.department;
+SELECT * FROM gfg.salaries;
